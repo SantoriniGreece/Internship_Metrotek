@@ -17,16 +17,19 @@ add wave -divider "OUTPUT SIGNALS"
 add wave -radix binary      tb_top/deser_data_o
 add wave                    tb_top/deser_data_val_o
 
-# add wave -divider "INTERNAL SIGNALS"
-# add wave -radix binary      tb_top/fixed_data
-# add wave                    tb_top/en
+add wave -divider "INTERNAL SIGNALS"
+# add wave -radix binary      tb_top/buffer_data
+add wave -radix unsigned    tb_top/dut_top_deserializer/val
+add wave -radix unsigned    tb_top/dut_top_deserializer/counter
 
 add wave -divider "CHECK"
-add wave -radix binary      tb_top/deser_data_res
+add wave                    tb_top/test_val
 add wave                    tb_top/res_val
+add wave -radix binary      tb_top/deser_data_res
 add wave -radix unsigned    tb_top/res_cntr
 add wave -radix unsigned    tb_top/bit_cntr
 add wave -radix unsigned    tb_top/err_cntr
 add wave -radix unsigned    tb_top/errbit_cntr
 
+# run -10us
 run -all
