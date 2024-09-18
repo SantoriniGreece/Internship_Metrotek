@@ -3,14 +3,15 @@ import priority_encoder_pkg::*;
 
 class priority_encoder_driver;
 
-    virtual priority_encoder_interface vif;
-    event drv_done;
-    mailbox drv_mbx;
+  virtual priority_encoder_interface vif;
+  event drv_done;
+  mailbox drv_mbx;
 
-    task run();
-      $display("Time = %t [Driver]: starting ...", $time);
-      @(posedge vif.clk);
-      forever begin
+  task run();
+    $display("Time = %t [Driver]: starting ...", $time);
+    @(posedge vif.clk);
+    forever 
+      begin
         priority_encoder_transaction trns;
 
         drv_mbx.get(trns);
@@ -23,6 +24,6 @@ class priority_encoder_driver;
         -> drv_done;
       end
 
-    endtask
+  endtask
 
 endclass //className
