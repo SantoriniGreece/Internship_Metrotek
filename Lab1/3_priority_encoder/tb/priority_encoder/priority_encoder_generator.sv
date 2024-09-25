@@ -9,20 +9,24 @@ class priority_encoder_generator;
   task run();
     // Test with valid = 1
     for (int i = 0; i < val1_tests; i++) 
-    begin
-      priority_encoder_transaction trns = new;
-      trns.randomize() with { data_val_i == 1; };
+      begin
+        priority_encoder_transaction trns = new;
+        // trns.randi() with { data_val_i == 1; };
+        trns.randi();
+        trns.data_val_i = 1;
 
-      drv_mbx.put(trns);
-      @(drv_done);
-    end
+        drv_mbx.put(trns);
+        @(drv_done);
+      end
     $display("Time = %t [Generator]: Done generation of %0d items with val = 1", $time, val1_tests);
 
     // Test with valid = 0
     for (int i = 0; i < val0_tests; i++) 
       begin
         priority_encoder_transaction trns = new;
-        trns.randomize() with { data_val_i == 0; };
+        // trns.randi() with { data_val_i == 0; };
+        trns.randi();
+        trns.data_val_i = 0;
 
         drv_mbx.put(trns);
         @(drv_done);
@@ -33,7 +37,7 @@ class priority_encoder_generator;
     while (rand_tests_cntr < rand_tests) 
       begin
         priority_encoder_transaction trns = new;
-        trns.randomize();
+        trns.randi();
     
         drv_mbx.put(trns);
         @(drv_done);
@@ -42,7 +46,7 @@ class priority_encoder_generator;
       end
     $display("Time = %t [Generator]: Done generation of %0d rand items", $time, rand_tests);
 
-    #100 $finish;
+    #100 $finish();
 
   endtask 
 

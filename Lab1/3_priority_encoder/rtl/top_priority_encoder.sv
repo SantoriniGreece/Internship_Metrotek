@@ -13,43 +13,55 @@ module top_priority_encoder # (
   output logic [WIDTH - 1 : 0]  data_right_o,
   output logic                  data_val_o
 );
+
+  logic [WIDTH - 1 : 0] data_left, data_right;
   
-  always_ff @( posedge clk ) 
+  always_comb
     begin : left_one
-      if ( srst_i )
-        data_left_o <= '0;
-      else 
-        if ( data_val_i ) 
-          begin
-            data_left_o <= '0;
-            for (int i = WIDTH - 1; i >= 0; i--) 
-              begin
-                if (data_i[i]) 
-                  begin
-                    data_left_o[i] <= 1'b1;
-                    break;
-                  end
-              end
-          end
+		data_left = '0;
+      if ( data_val_i ) 
+        begin
+          for (int i = WIDTH - 1; i >= 0; i--) 
+            begin
+              if (data_i[i]) 
+                begin
+                  data_left[i] = 1'b1;
+                  break;
+                end
+            end
+        end
+    end
+
+  always_comb 
+    begin : right_one
+		data_right = '0;
+      if ( data_val_i ) 
+        begin
+          for (int i = 0; i < WIDTH; i++) 
+            begin
+              if (data_i[i]) 
+                begin
+                  data_right[i] = 1'b1;
+                  break;
+                end
+            end
+        end
     end
 
   always_ff @( posedge clk ) 
-    begin : right_one
+    begin
+      if (srst_i)
+        data_left_o  <= '0;
+      else 
+        data_left_o  <= data_left;
+    end
+
+  always_ff @( posedge clk ) 
+    begin
       if (srst_i)
         data_right_o <= '0;
       else 
-        if (data_val_i) 
-          begin
-            data_right_o <= '0;
-            for (int i = 0; i < WIDTH; i++) 
-              begin
-                if (data_i[i]) 
-                  begin
-                    data_right_o[i] <= 1'b1;
-                    break;
-                  end
-              end
-          end
+        data_right_o <= data_right;
     end
 
   always_ff @( posedge clk ) 

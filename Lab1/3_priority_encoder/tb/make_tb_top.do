@@ -14,7 +14,9 @@ vlog -sv    environment.sv
 vlog -sv    test.sv
 vlog -sv    tb_top.sv
 
-vsim -novopt tb_top
+# vopt +acc tb_top -o tb_top_opt
+# vsim tb_top -onfinish final
+vsim tb_top
 
 add log -r /*
 
@@ -29,4 +31,9 @@ add wave -radix binary      tb_top/priority_encoder_intf.data_left_o
 add wave -radix binary      tb_top/priority_encoder_intf.data_right_o
 add wave                    tb_top/priority_encoder_intf.data_val_o
 
+add wave -divider "COUNTERS"
+add wave -radix unsigned    priority_encoder_pkg/rand_tests_cntr
+add wave -radix unsigned    priority_encoder_pkg/err_cntr
+
 run -all
+# quit -f

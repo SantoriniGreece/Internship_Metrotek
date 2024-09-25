@@ -16,14 +16,14 @@ class scoreboard;
 
         // Check results
         if ( trns.data_left_o !== data_left_res )
-          $display("Time = %t [Scoreboard]: ERROR! Left:\t excepted %b, actual %b", $time, data_left_res, trns.data_left_o);
+          $display("Time = %t [Scoreboard]: ERROR! Left:  excepted %b, actual %b", $time, data_left_res, trns.data_left_o);
         else
-          $display("Time = %t [Scoreboard]: PASS! Left:\t excepted %b, actual %b", $time, data_left_res, trns.data_left_o);
+          $display("Time = %t [Scoreboard]: PASS! Left:  excepted %b, actual %b", $time, data_left_res, trns.data_left_o);
 
         if ( trns.data_right_o !== data_right_res )
-          $display("Time = %t [Scoreboard]: ERROR! Right:\t excepted %b, actual %b", $time, data_right_res, trns.data_right_o);
+          $display("Time = %t [Scoreboard]: ERROR! Right: excepted %b, actual %b", $time, data_right_res, trns.data_right_o);
         else
-          $display("Time = %t [Scoreboard]: PASS! Right:\t excepted %b, actual %b", $time, data_right_res, trns.data_right_o);
+          $display("Time = %t [Scoreboard]: PASS! Right: excepted %b, actual %b", $time, data_right_res, trns.data_right_o);
 
         // Error counter
         if ( ( trns.data_left_o !== data_left_res ) || ( trns.data_right_o !== data_right_res ) ) 

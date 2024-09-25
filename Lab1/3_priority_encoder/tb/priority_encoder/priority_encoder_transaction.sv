@@ -12,5 +12,10 @@ class priority_encoder_transaction;
     $display ("Time = %t [%s]: InputData = %b\nOutputDataLeft = %b, OutputDataRight = %b", $time, tag, data_i, data_left_o, data_right_o);
   endfunction //new()
 
+  function void randi ();
+    data_i     = $urandom%(2**WIDTH);
+    data_val_i = $urandom%(2);
+  endfunction
+
 endclass
 
