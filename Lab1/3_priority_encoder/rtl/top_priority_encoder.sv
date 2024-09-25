@@ -21,7 +21,7 @@ module top_priority_encoder # (
       data_left = '0;
       if ( data_val_i ) 
         begin
-          for (int i = WIDTH - 1; i >= 0; i--) 
+          for ( int i = WIDTH - 1; i >= 0; i-- ) 
             begin
               if (data_i[i]) 
                 begin
@@ -37,7 +37,7 @@ module top_priority_encoder # (
       data_right = '0;
       if ( data_val_i ) 
         begin
-          for (int i = 0; i < WIDTH; i++) 
+          for ( int i = 0; i < WIDTH; i++ ) 
             begin
               if (data_i[i]) 
                 begin
