@@ -18,7 +18,7 @@ module top_priority_encoder # (
   
   always_comb
     begin : left_one
-		data_left = '0;
+      data_left = '0;
       if ( data_val_i ) 
         begin
           for (int i = WIDTH - 1; i >= 0; i--) 
@@ -34,7 +34,7 @@ module top_priority_encoder # (
 
   always_comb 
     begin : right_one
-		data_right = '0;
+      data_right = '0;
       if ( data_val_i ) 
         begin
           for (int i = 0; i < WIDTH; i++) 
