@@ -1,6 +1,7 @@
 
-import bit_population_counter_pkg::*;
 `include "scoreboard.sv"
+
+import bit_population_counter_pkg::*;
 
 class environment;
   bit_population_counter_generator          g0;
@@ -8,37 +9,32 @@ class environment;
   bit_population_counter_monitor            m0;
   scoreboard                                s0;
 
-  mailbox                                   drv_mbx;
-  mailbox                                   scb_mbx;
-  event                                     drv_done;
+  mailbox                                   gen2drv_mbx;
+  mailbox                                   drv2scb_mbx;
+  mailbox                                   mon2scb_mbx;
 
+  event                                     drv_done;
   event                                     env_done;
 
   virtual bit_population_counter_interface  vif;
 
-  function new ();
-    g0          = new;
-    d0          = new;
-    m0          = new;
-    s0          = new;
-
-    drv_mbx     = new();
-    scb_mbx     = new();
-
-    g0.drv_mbx  = drv_mbx;
-    d0.drv_mbx  = drv_mbx;
-    m0.scb_mbx  = scb_mbx;
-    s0.scb_mbx  = scb_mbx;
-
-    d0.drv_done = drv_done;
-    g0.drv_done = drv_done;
-
+  function new(virtual bit_population_counter_interface vif);
+    // Interface
+    this.vif    = vif;
+    // Mailboxes
+    gen2drv_mbx = new();
+    drv2scb_mbx = new();
+    mon2scb_mbx = new();
+    // Components
+    g0          = new(gen2drv_mbx, drv_done);
+    d0          = new(vif        , gen2drv_mbx, drv2scb_mbx, drv_done);
+    m0          = new(vif        , mon2scb_mbx);
+    // Scoreboard
+    s0          = new(drv2scb_mbx, mon2scb_mbx);
   endfunction
 
   virtual task run();
-    d0.vif = vif;
-    m0.vif = vif;
-
+    
     fork
       g0.run();
       d0.run();

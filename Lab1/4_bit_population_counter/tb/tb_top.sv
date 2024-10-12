@@ -6,9 +6,8 @@ import bit_population_counter_pkg::*;
 module tb_top ( );
 
   parameter     CLK_PERIOD = 10; // Clock period
-  bit           clk;
-  bit           rst;
-  logic         srst_i;
+  logic         clk;
+  logic         rst, srst_i;
 
   environment   e0;
 
@@ -22,6 +21,11 @@ module tb_top ( );
   
   initial $timeformat(-9, 0, " ns", 8);
 
+  always_ff @( posedge clk ) 
+    begin
+      srst_i <= rst;
+    end
+
   bit_population_counter_interface bit_population_counter_intf (clk, srst_i);
 
   initial 
@@ -29,15 +33,14 @@ module tb_top ( );
       rst         = 1'b1;
       #100 rst    = 1'b0;
 
-      e0          = new;
-      e0.vif      = bit_population_counter_intf;
+      e0          = new(bit_population_counter_intf);
       e0.run();
       
       fork
         begin
           wait(e0.env_done.triggered);
           $display("---------------------------------------------------------------------------------");
-          $display("Simulation is done (time %t): %0d errors from %0d tests", $time, err_cntr, (rand_tests+val1_tests) );
+          $display("Simulation is done (time %t): %0d errors from %0d tests", $time, err_cntr, num_test);
         end
         begin
           #TIMEOUT; 
@@ -48,17 +51,6 @@ module tb_top ( );
       $finish;
       
     end
-
-  always_ff @( posedge clk ) 
-    begin
-      srst_i <= rst;
-    end
-
-//  final 
-//    begin
-//      $display("---------------------------------------------------------------------------------");
-//      $display("Simulation is done (time %t): %0d errors from %0d tests", $time, err_cntr, (rand_tests+val1_tests) );
-//    end
 
   top_bit_population_counter 
   # (

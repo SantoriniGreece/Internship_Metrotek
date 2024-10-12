@@ -16,19 +16,16 @@ module top_bit_population_counter #(
 
   always_comb 
     begin
-	    count_ones = '0;  
-	    for(int i = 0; i < WIDTH; i++)
-		    begin
-		      count_ones = count_ones + data_i[i];
-		    end
+      count_ones = '0;  
+      for(int i = 0; i < WIDTH; i++)
+        begin
+          count_ones = count_ones + data_i[i];
+        end
     end
 
   always_ff @( posedge clk ) 
     begin
-	    if (srst_i)
-		    data_o <= '0;
-      else
-		    data_o <= count_ones;
+      data_o <= count_ones;
     end
 
   always_ff @( posedge clk ) 

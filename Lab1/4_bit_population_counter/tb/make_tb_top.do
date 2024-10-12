@@ -29,7 +29,7 @@ add wave -radix unsigned    tb_top/bit_population_counter_intf.data_o
 add wave                    tb_top/bit_population_counter_intf.data_val_o
 
 add wave -divider "COUNTERS"
-add wave -radix unsigned    bit_population_counter_pkg/rand_tests_cntr
+add wave -radix unsigned    tb_top/e0.g0.rand_test_cntr
 add wave -radix unsigned    bit_population_counter_pkg/err_cntr
 
 run -all
